@@ -6,8 +6,8 @@
 <%@page import="Session.Cart"%>
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! String username; %>
-<%! Cart cart; %>
+<% String username; %>
+<% Cart cart; %>
 
 
 <!DOCTYPE html>
@@ -44,12 +44,12 @@
                 }%>
                         </button></span></form><a>  </a></li>
                 <li class="nav-item">
-                    <form action="FrontServlet" method="GET">
+                    <form action="SessionServlet" method="GET">
                         <input type="hidden" name="command" value="IndexCommand">
                         <input type="hidden" name="logout" value="yes">
                         <input class="btn btn-secondary" type="submit" value="Desloguearse">
                     </form>
-                </li>  
+                </li> 
             <% } else { %>
                 <li class="nav-item">
                     <form action="FrontServlet" method="GET">
@@ -72,13 +72,12 @@
                 <tr class="table-info">
                     <td> <% out.print(item.getName()); %> </td>
                     <td> <% out.print(item.getId()); %> </td>
-                    <td> <% out.print(item.getValue()); 
-                        total += Integer.parseInt(item.getValue()); %> $</td>
+                    <td> <% out.print(item.getValue()); %> $</td>
                 </tr>
                 <% } %>
                 <tr>
                     <td></td><td class="table-info">Total:</td>
-                    <td class="table-info"> <% out.print(total); %> $</td> 
+                    <td class="table-info"> <% out.print(session.getAttribute("total")); %> $</td> 
                 </tr>
             </tbody>
         </table>

@@ -52,12 +52,21 @@ public class SessionServlet extends HttpServlet {
         if(cart == null){
             cart = new SingleCart(); 
             cart.initialize();
-            session.setAttribute("cart", cart);    
-            session.setAttribute("user", request.getParameter("username"));        
-        }else{
-            if(request.getParameter("name") != null){
-                cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
+            session.setAttribute("cart", cart);
+            if(request.getParameter("username")  == null){
+                session.setAttribute("user", "Anonimo");  
+                addItem(request,cart);
+            }else{
+                session.setAttribute("user", request.getParameter("username"));        
             }
+        }else{
+            addItem(request,cart);
+        }
+    }
+    
+    private void addItem(HttpServletRequest request, Cart cart){
+        if(request.getParameter("name") != null){
+                cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
         }
     }
     
