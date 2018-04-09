@@ -5,14 +5,19 @@
  */
 package Session;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.ejb.PostActivate;
+import javax.ejb.Stateful;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -20,47 +25,41 @@ import javax.naming.NamingException;
  *
  * @author ruben
  */
-@Stateless
+@Stateful
 @LocalBean
-public class Disccount {
+public class Save {
+
     private InactivityLog inactivityLog;
-    private Save save;
-    
-    public Disccount(){
+        
+    public Save(){
         try {
             inactivityLog = InitialContext.doLookup("java:global/WebShop/InactivityLog!Session.InactivityLog");
-            save = InitialContext.doLookup("java:global/WebShop/Save!Session.Save");
         } catch (NamingException ex) {
-            Logger.getLogger(Disccount.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public int remainder(int a , int b) {
-        inactivityLog.Log("Disccount", "remainder");
-        try {
-            save.saveActions("Disccount::remainder::Calcula la rebaja");
-        } catch (IOException ex) {
-            Logger.getLogger(Disccount.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int temp = 0;
-        if (b != 0) {
-            temp = a - (a * b / 100);
-        }
-        return temp;
+    public void saveActions(String texto) throws IOException {
+        File file = new File("C:\\Users\\ruben\\Desktop\\Actions log.txt");
+        BufferedWriter output = null;
+        output = new BufferedWriter(new FileWriter(file, true));
+        output.write(texto);
+        output.newLine();
+        output.close();
     }
     
     @PostConstruct
     public void postConstruct() {
-        System.out.println("Inicializado el EJB de Disccount");
+        System.out.println("Inicializado el EJB de Save");
     }
     
     @PostActivate
     public void postActivate() {
-        System.out.println("Inicializado el EJB de Disccount");
+        System.out.println("Inicializado el EJB de Save");
     }
     
     @PreDestroy
     public void preDestroy() {
-        System.out.println("Se cerro el EJB de Disccount");
+        System.out.println("Se cerro el EJB de Save");
     }
 }

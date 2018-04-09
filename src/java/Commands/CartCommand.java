@@ -2,6 +2,7 @@ package Commands;
 
 import Session.Calculate;
 import Session.Cart;
+import Session.DataDump;
 import Session.Disccount;
 import Session.InactivityLog;
 import Session.Item;
@@ -19,6 +20,7 @@ import javax.naming.NamingException;
 @WebServlet(name = "CartCommand", urlPatterns = {"/CartCommand"})
 public class CartCommand extends FrontCommand {
 
+    DataDump dataDump = lookupDataDumpBean();
     Calculate calculate = lookupCalculateBean();
     Disccount disccount = lookupDisccountBean();
     InactivityLog inactivityLog = lookupInactivityLogBean();
@@ -43,6 +45,7 @@ public class CartCommand extends FrontCommand {
         }
         session.setAttribute("total", calculate.getValue());
         try {
+            dataDump.setCart();
             inactivityLog.Log("Cart.jsp", "Pagina");
             forward("/Cart.jsp");
         } catch (ServletException ex) {
@@ -76,6 +79,16 @@ public class CartCommand extends FrontCommand {
         try {
             Context c = new InitialContext();
             return (Calculate) c.lookup("java:global/WebShop/Calculate!Session.Calculate");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private DataDump lookupDataDumpBean() {
+        try {
+            Context c = new InitialContext();
+            return (DataDump) c.lookup("java:global/WebShop/DataDump!Session.DataDump");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

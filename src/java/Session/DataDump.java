@@ -19,7 +19,31 @@ import javax.ejb.Startup;
 public class DataDump {
     
     int login,logoff,productsClicked,frontServlet,sessionServlet,index
-           ,list,cart,profile,Unknown,singletonAccess = 0;
+           ,list,cart,profile,Unknown,singletonAccess,log,sign,statistic = 0;
+
+    public int getSign() {
+        return sign;
+    }
+
+    public void setSign() {
+        sign++;
+    }
+
+    public int getStatistic() {
+        return statistic;
+    }
+
+    public void setStatistic() {
+        statistic++;
+    }
+
+    public int getLog() {
+        return log;
+    }
+
+    public void setLog() {
+        log++;
+    }
 
     public int getTimeOut() {
         return singletonAccess;
@@ -108,6 +132,7 @@ public class DataDump {
     public void setTimeOut() {
         singletonAccess++;
     }
+
     
     
 }

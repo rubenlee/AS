@@ -24,7 +24,7 @@ public class InactivityLog {
     public void Log(String clase, String funcion) {
         this.log += clase + "::" + funcion + ";";
     }
-
+    
     public String getLog() {
         dataDump.setTimeOut();
         return log;

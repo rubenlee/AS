@@ -8,7 +8,9 @@
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%! String username; 
-    Cart cart;%>
+    Cart cart;
+    String money;
+%>
 
 <!DOCTYPE html>
 

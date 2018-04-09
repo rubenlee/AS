@@ -5,6 +5,7 @@
  */
 package Commands;
 
+import Session.DataDump;
 import Session.InactivityLog;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet(name = "ListCommand", urlPatterns = {"/ListCommand"})
 public class ListCommand extends FrontCommand {
 
+    DataDump dataDump = lookupDataDumpBean();
     InactivityLog inactivityLog = lookupInactivityLogBean();
 
     @Override
@@ -29,6 +31,7 @@ public class ListCommand extends FrontCommand {
         inactivityLog.Log("ListCommand", "process");
         try {
             inactivityLog.Log("List.jsp", "Pagina");
+            dataDump.setList();
             forward("/List.jsp");
         } catch (ServletException ex) {
             Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,6 +44,16 @@ public class ListCommand extends FrontCommand {
         try {
             Context c = new InitialContext();
             return (InactivityLog) c.lookup("java:global/WebShop/InactivityLog!Session.InactivityLog");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private DataDump lookupDataDumpBean() {
+        try {
+            Context c = new InitialContext();
+            return (DataDump) c.lookup("java:global/WebShop/DataDump!Session.DataDump");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

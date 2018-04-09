@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Session;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.ejb.LocalBean;
+import javax.ejb.PostActivate;
 
 /**
  *
@@ -16,16 +14,10 @@ import javax.ejb.LocalBean;
 @LocalBean
 public class Profile {
 
-    private String name;
-    private String email;
-    private String adress;
+    private String name = "a";
+    private String email = "b";
+    private String adress = "c";
     
-    public Profile(){
-        name = new String();
-        email = new String();
-        adress = new String();
-    }
-
     public String getName() {
         return name;
     }
@@ -48,5 +40,20 @@ public class Profile {
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+    
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("Inicializado el EJB de Profile");
+    }
+    
+    @PostActivate
+    public void postActivate() {
+        System.out.println("Inicializado el EJB de Profile");
+    }
+    
+    @PreDestroy
+    public void preDestroy() {
+        System.out.println("Se cerro el EJB de Profile");
     }
 }

@@ -9,14 +9,9 @@ import Session.Cart;
 import Session.DataDump;
 import Session.InactivityLog;
 import Session.Item;
-import Session.Profile;
+import Session.Wallet;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,9 +26,6 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(urlPatterns = {"/SessionServlet"})
 public class SessionServlet extends HttpServlet {
-
-    Profile profile = lookupProfileBean();
-
     @EJB
     private Item item;
 
@@ -46,6 +38,8 @@ public class SessionServlet extends HttpServlet {
     @EJB
     private DataDump datadump;
 
+    @EJB
+    private Wallet wallet;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -70,15 +64,17 @@ public class SessionServlet extends HttpServlet {
     private void initializeCart(HttpServletRequest request, HttpSession session) {
         if (cart.isActive() == false) {
             cart = new Cart();
-            profile = new Profile();
+            wallet = new Wallet();
             cart.initialize();
             session.setAttribute("cart", cart);
+            datadump.setLogin();
             if (request.getParameter("username") == null) {
                 session.setAttribute("user", "Anonimo");
+                session.setAttribute("money", wallet.getAmount());
                 addItem(request, cart);
             } else {
                 session.setAttribute("user", request.getParameter("username"));
-                profile.setName(request.getParameter("username"));
+                session.setAttribute("money", "100");
             }
         } else {
             addItem(request, cart);
@@ -101,6 +97,7 @@ public class SessionServlet extends HttpServlet {
             return false;
         } else {
             cart.setActive();
+            datadump.setLogoff();
             session.removeAttribute("user");
             session.invalidate();
             return true;
@@ -146,14 +143,5 @@ public class SessionServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private Profile lookupProfileBean() {
-        try {
-            Context c = new InitialContext();
-            return (Profile) c.lookup("java:global/WebShop/Profile!Session.Profile");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
 
 }

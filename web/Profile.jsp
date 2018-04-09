@@ -18,16 +18,16 @@
         <form class="form-signin" action="EditServlet" method="GET">
             <div>
                 <label for="username"> Usuario </label><br>
-                <p>${name}</p>
+                
                 <input type="text" id="username" name="username" placeholder="Usuario" value="${name}"> 
             </div>
             <div>
                 <label for="username"> Dirección </label><br>
-                <input type="text" id="adress" name="adress" placeholder="adress" value="${adress}"> 
+                <input type="text" id="adress" name="adress" placeholder="Direccion" value="${adress}"> 
             </div>
             <div>
                 <label for="username"> Email </label><br>
-                <input type="text" id="email" name="email" placeholder="email" value="${email}"> 
+                <input type="text" id="email" name="email" placeholder="Email" value="${email}"> 
             </div>
             <input type="hidden" name="command" value="ProfileCommand"> <br><br>
             <input class="btn btn-primary" type="submit" value="Cambiar">

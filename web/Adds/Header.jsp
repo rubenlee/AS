@@ -26,10 +26,13 @@
                 <input class="btn btn-link" type="submit" value="Ver Estadisticas">
             </form>
         </li>
+        
         <%  username = (String) session.getAttribute("user");
             cart = (Cart) session.getAttribute("cart");
             if (username != null) {
-                %> <li> <span class="oi oi-person"></span> <a class="nav-link" href="FrontServlet?command=ProfileCommand"> <% out.println(username); %> </a> </li>
+                %>
+                <li> <a class="nav-link disabled"> <% out.print((String)session.getAttribute("money") + "€" ); %> </a> </li>
+                <li> <a class="nav-link" href="FrontServlet?command=ProfileCommand"> <% out.println(username); %> </a> </li>
         <li> <form action="FrontServlet" method="GET">
                 <input type="hidden" name="command" value="CartCommand">
                 <button class="btn btn-link" type="submit">Cesta <span class="badge badge-secondary">

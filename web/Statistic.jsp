@@ -30,6 +30,9 @@
         <h4>Numero de veces acceso a la página de cesta: ${cart}</h4>
         <h4>Numero de veces acceso a la página de logueo: ${profile}</h4>
         <h4>Numero de veces acceso a la página de error: ${Unknown}</h4>
+        <h4>Numero de veces acceso al la página de iniciar sesion: ${sign}</h4>
+        <h4>Numero de veces acceso al la página de estadisticas: ${statistic}</h4>
+        <h4>Numero de veces acceso al la página de log: ${singletonAccess}</h4>
         <h4>Numero de veces acceso al singleton: ${singletonAccess}</h4>
         <%@include file="/Adds/Footer.jsp" %>
     </body>

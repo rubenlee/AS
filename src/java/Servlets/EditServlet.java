@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlets;
 
 import Session.Profile;
@@ -18,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -29,20 +25,13 @@ public class EditServlet extends HttpServlet {
 
     Profile profile = lookupProfileBean();
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        profile.setName(request.getParameter("name"));
+        HttpSession session = request.getSession(true);
+        profile.setName(request.getParameter("username"));
         profile.setAdress(request.getParameter("adress"));
         profile.setEmail(request.getParameter("email"));
+        session.setAttribute("user", request.getParameter("name"));
         RequestDispatcher dp = getServletContext().getRequestDispatcher("/FrontServlet");
         dp.forward(request, response);
     }
