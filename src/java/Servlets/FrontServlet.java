@@ -7,9 +7,12 @@ package Servlets;
 
 import Commands.UnknownCommand;
 import Commands.FrontCommand;
+import Session.DataDump;
+import Session.InactivityLog;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "FrontServlet", urlPatterns = {"/FrontServlet"})
 public class FrontServlet extends HttpServlet {
 
+    @EJB
+    private DataDump dataDump;
+    
+    @EJB
+    private InactivityLog inactivityLog;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,7 +42,8 @@ public class FrontServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, IllegalAccessException {
-        
+        inactivityLog.Log("FrontCommand", "processRequest");
+        dataDump.setFrontServlet();
         FrontCommand command = getCommand(request);
         command.init(getServletContext(), request, response);
         command.process();

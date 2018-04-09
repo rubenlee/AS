@@ -5,12 +5,13 @@ package Servlets;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import Session.Cart;
+import Session.DataDump;
+import Session.InactivityLog;
 import Session.Item;
-import Session.SingleCart;
+import Session.Wallet;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +26,20 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(urlPatterns = {"/SessionServlet"})
 public class SessionServlet extends HttpServlet {
+    @EJB
+    private Item item;
 
+    @EJB
+    private Cart cart;
+
+    @EJB
+    private InactivityLog inactivityLog;
+
+    @EJB
+    private DataDump datadump;
+
+    @EJB
+    private Wallet wallet;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,44 +51,53 @@ public class SessionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
         String userSession = (String) session.getAttribute("user");
-        if(!logout(request,session)){
-            initializeCart(request, session);   
+        datadump.setSessionServlet();
+        if (!logout(request, session)) {
+            initializeCart(request, session);
         }
         RequestDispatcher dp = getServletContext().getRequestDispatcher("/FrontServlet");
         dp.forward(request, response);
     }
-    
-    private void initializeCart(HttpServletRequest request, HttpSession session){
-        Cart cart = (Cart) session.getAttribute("cart");
-        if(cart == null){
-            cart = new SingleCart(); 
+
+    private void initializeCart(HttpServletRequest request, HttpSession session) {
+        if (cart.isActive() == false) {
+            cart = new Cart();
+            wallet = new Wallet();
             cart.initialize();
             session.setAttribute("cart", cart);
-            if(request.getParameter("username")  == null){
-                session.setAttribute("user", "Anonimo");  
-                addItem(request,cart);
-            }else{
-                session.setAttribute("user", request.getParameter("username"));        
+            datadump.setLogin();
+            if (request.getParameter("username") == null) {
+                session.setAttribute("user", "Anonimo");
+                session.setAttribute("money", wallet.getAmount());
+                addItem(request, cart);
+            } else {
+                session.setAttribute("user", request.getParameter("username"));
+                session.setAttribute("money", "100");
             }
-        }else{
-            addItem(request,cart);
+        } else {
+            addItem(request, cart);
         }
     }
-    
-    private void addItem(HttpServletRequest request, Cart cart){
-        if(request.getParameter("name") != null){
-                cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
+
+    private void addItem(HttpServletRequest request, Cart cart) {
+        if (request.getParameter("name") != null) {
+            datadump.setProductsClicked();
+            item.setId(request.getParameter("id"));
+            item.setName(request.getParameter("name"));
+            item.setValue(request.getParameter("value"));
+            cart.addItem(item);
         }
     }
-    
-    private Boolean logout(HttpServletRequest request, HttpSession session){
+
+    private Boolean logout(HttpServletRequest request, HttpSession session) {
         String logout = request.getParameter("logout");
-        if(logout == null){
+        if (logout == null) {
             return false;
-        }else{
+        } else {
+            cart.setActive();
+            datadump.setLogoff();
             session.removeAttribute("user");
             session.invalidate();
             return true;
@@ -119,5 +142,6 @@ public class SessionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 
 }

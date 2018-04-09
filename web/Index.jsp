@@ -7,8 +7,10 @@
 <%@page import="Session.Cart"%>
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! String username; %>
-<%! Cart cart; %>
+<%! String username; 
+    Cart cart;
+    String money;
+%>
 
 <!DOCTYPE html>
 
@@ -18,49 +20,11 @@
         <title>The webShop</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="main.css" rel="stylesheet">
     </head>
     <body class="text-center" style="background-color:#f0fbff">
-        <ul class="nav justify-content-end border-bottom">
-            <li class="nav-item">
-                    <form action="FrontServlet" method="POST">
-                        <input type="hidden" name="command" value="IndexCommand">
-                        <input class="btn btn-link" type="submit" value="Pagina principal">
-                    </form>
-            </li>
-            <li class="nav-item">
-                    <form action="FrontServlet" method="POST">
-                        <input type="hidden" name="command" value="ListCommand">
-                        <input class="btn btn-link" type="submit" value="Productos">
-                    </form>
-            </li>
-            <%  username = (String) session.getAttribute("user");
-                cart = (Cart) session.getAttribute("cart");
-                if(username != null){
-            %> <li> <a class="nav-link disabled"> <% out.println("Bienvenido " + username); %> </a> </li>
-                <li> <form action="FrontServlet" method="GET">
-                        <input type="hidden" name="command" value="CartCommand">
-                        <button class="btn btn-link" type="submit">Cesta <span class="badge badge-secondary">
-                <%if(cart != null){
-                    out.print(cart.getContents().size());
-                }%>
-                        </button></span></form><a>  </a></li>
-                <li class="nav-item">
-                    <form action="SessionServlet" method="GET">
-                        <input type="hidden" name="command" value="IndexCommand">
-                        <input type="hidden" name="logout" value="yes">
-                        <input class="btn btn-secondary" type="submit" value="Desloguearse">
-                    </form>
-                </li> 
-            <% } else { %>
-                <li class="nav-item">
-                    <form action="FrontServlet" method="GET">
-                        <input type="hidden" name="command" value="ProfileCommand">
-                        <input class="btn btn-primary" type="submit" value="Loguearse">
-                    </form>
-                </li>
-            <% } %>
-        </ul>
-            <img src="Img/logo.png" alt="logo.png" class="rounded mx-auto d-block" width="500" height="400">
+        <%@include file="/Adds/Header.jsp" %>
+        <img src="Img/logo.png" alt="logo.png" class="rounded mx-auto d-block" width="500" height="400">
         <div class="btn-group">
             <form action="FrontServlet" method="GET">
                 <input type="hidden" name="command" value="UnknownCommand">
@@ -73,5 +37,7 @@
                 <input class="btn btn-outline-primary" type="submit" value="Ver productos">
             </form>
         </div>
+        <%@include file="/Adds/Footer.jsp" %>
     </body>
+
 </html>

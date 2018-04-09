@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Commands;
 
 import Session.DataDump;
@@ -11,21 +16,23 @@ import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet(name = "IndexCommand", urlPatterns = {"/IndexCommand"})
-public class IndexCommand extends FrontCommand {
+/**
+ *
+ * @author Usuario
+ */
+@WebServlet(name = "SignCommand", urlPatterns = {"/SignCommand"})
+public class SignCommand extends FrontCommand {
 
     DataDump dataDump = lookupDataDumpBean();
     InactivityLog inactivityLog = lookupInactivityLogBean();
-    
-    
+
     @Override
     public void process() {
+        inactivityLog.Log("SignCommand", "process");
         try {
-            inactivityLog.Log("SessionServlet", "process");
-            dataDump.setIndex();
-            dataDump.setSessionServlet();
-            inactivityLog.Log("Index.jsp", "Pagina");
-            forward("/Index.jsp");
+            inactivityLog.Log("Sign.jsp", "Pagina");
+            dataDump.setSign();
+            forward("/Sign.jsp");
         } catch (ServletException ex) {
             Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
