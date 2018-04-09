@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet(name = "ProfileCommand", urlPatterns = {"/ProfileCommand"})
+@WebServlet(name = "IndexCommand", urlPatterns = {"/IndexCommand"})
 public class IndexCommand extends FrontCommand {
 
     @Override

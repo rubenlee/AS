@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import javax.ejb.EJB;
 
-@WebServlet(name = "ProfileCommand", urlPatterns = {"/ProfileCommand"})
+@WebServlet(name = "CartCommand", urlPatterns = {"/CartCommand"})
 public class CartCommand extends FrontCommand {
     @EJB
     private Cart cart;

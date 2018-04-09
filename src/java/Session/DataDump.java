@@ -18,17 +18,8 @@ import javax.ejb.Startup;
 @Startup
 public class DataDump {
     
-    int login;
-    int logoff;
-    int productsClicked;
-    int frontServlet;
-    int sessionServlet;
-    int index;
-    int list;
-    int cart;
-    int profile;
-    int Unknown;
-    int singletonAccess;
+    int login,logoff,productsClicked,frontServlet,sessionServlet,index
+           ,list,cart,profile,Unknown,singletonAccess = 0;
 
     public int getTimeOut() {
         return singletonAccess;

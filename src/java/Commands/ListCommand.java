@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebServlet;
  *
  * @author Usuario
  */
-@WebServlet(name = "ProfileCommand", urlPatterns = {"/ProfileCommand"})
+@WebServlet(name = "ListCommand", urlPatterns = {"/ListCommand"})
 public class ListCommand extends FrontCommand {
 
     @Override

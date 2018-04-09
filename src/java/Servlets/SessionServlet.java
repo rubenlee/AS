@@ -9,7 +9,12 @@ package Servlets;
 import Session.Cart;
 import Session.Item;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +30,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(urlPatterns = {"/SessionServlet"})
 public class SessionServlet extends HttpServlet {
     @EJB
-    private Cart cart;
+    Cart cart;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,7 +43,6 @@ public class SessionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
         String userSession = (String) session.getAttribute("user");
         if(!logout(request,session)){
@@ -48,23 +53,22 @@ public class SessionServlet extends HttpServlet {
     }
     
     private void initializeCart(HttpServletRequest request, HttpSession session){
-        //Cart cart = (Cart) session.getAttribute("cart");
         if(cart.isActive() == false){
             cart = new Cart(); 
             cart.initialize();
             session.setAttribute("cart", cart);
             if(request.getParameter("username")  == null){
                 session.setAttribute("user", "Anonimo");  
-                addItem(request);
+                addItem(request, cart);
             }else{
                 session.setAttribute("user", request.getParameter("username"));        
             }
         }else{
-            addItem(request);
+            addItem(request, cart);
         }
     }
     
-    private void addItem(HttpServletRequest request){
+    private void addItem(HttpServletRequest request, Cart cart){
         if(request.getParameter("name") != null){
                 cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
         }
@@ -119,5 +123,15 @@ public class SessionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private Cart lookupCartBean() {
+        try {
+            Context c = new InitialContext();
+            return (Cart) c.lookup("java:global/WebShop/Cart!Session.Cart");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 
 }

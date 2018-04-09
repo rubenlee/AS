@@ -21,8 +21,8 @@ public class InactivityLog {
     private DataDump dataDump;
     private String log = "";
 
-    public void Log(String nombreClase, String nombreFuncion) {
-        this.log = "\n" + nombreClase + "::" + nombreFuncion + "\n";
+    public void Log(String clase, String funcion) {
+        this.log = clase + "::" + funcion;
         System.out.println(this.log);
     }
 
