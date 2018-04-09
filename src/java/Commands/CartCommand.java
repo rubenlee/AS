@@ -8,10 +8,13 @@ import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
+import javax.ejb.EJB;
 
 @WebServlet(name = "ProfileCommand", urlPatterns = {"/ProfileCommand"})
 public class CartCommand extends FrontCommand {
-
+    @EJB
+    private Cart cart;
+    
     @Override
     public void process() {
         HttpSession session = request.getSession(true);

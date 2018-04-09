@@ -16,11 +16,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body class="text-center" style="background-color:#f0fbff">
+        <%@include file="/Adds/Header.jsp" %>
         <br>
         <h1 class="display-1"> <:(> </h1>
         <div class="alert alert-light" role="alert">
             <h2 class="display-2"> oh no!</h2>
             <h3 class="display-2"> Hubo un error</h3>
         </div>
+        <%@include file="/Adds/Footer.jsp" %>
     </body>
 </html>

@@ -1,18 +1,62 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Session;
 
+import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Stateful;
+import javax.ejb.LocalBean;
 
-/** 
- * @author Ruben
+/**
+ *
+ * @author ruben
  */
+@Stateful
+@LocalBean
+public class Cart {
 
-@Remote
-public interface Cart {
-    public void initialize();
-    public void addItem(Item item);
-    public void removeItem(Item item);
-    public List<Item> getContents();
-    public void remove();
-    public String getUser();
+    private List<Item> list;
+    private String user;
+    private boolean active = false;
+
+    public boolean isActive() {
+        return active;
+    }
+    
+    public void initialize() {
+        list = new ArrayList<Item>();
+        active = true;
+    }
+
+    public void addItem(Item item) {
+        list.add(item);
+    }
+
+    public void removeItem(Item item){
+        int temp = 0;
+        for(Item cart : list){
+            if(cart.getId().equals(item.getId())){
+                list.remove(temp);
+                break;
+            }
+            temp++;
+        }
+    }
+
+    public List<Item> getContents() {
+        return list;
+    }
+
+    public void remove() {
+        if(!list.isEmpty()){
+            list = new ArrayList<Item>();
+        }
+    }
+    
+    public String getUser(){
+        return user;
+    }
 }

@@ -8,9 +8,8 @@ package Servlets;
 
 import Session.Cart;
 import Session.Item;
-import Session.SingleCart;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +24,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(urlPatterns = {"/SessionServlet"})
 public class SessionServlet extends HttpServlet {
-
+    @EJB
+    private Cart cart;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,23 +48,23 @@ public class SessionServlet extends HttpServlet {
     }
     
     private void initializeCart(HttpServletRequest request, HttpSession session){
-        Cart cart = (Cart) session.getAttribute("cart");
-        if(cart == null){
-            cart = new SingleCart(); 
+        //Cart cart = (Cart) session.getAttribute("cart");
+        if(cart.isActive() == false){
+            cart = new Cart(); 
             cart.initialize();
             session.setAttribute("cart", cart);
             if(request.getParameter("username")  == null){
                 session.setAttribute("user", "Anonimo");  
-                addItem(request,cart);
+                addItem(request);
             }else{
                 session.setAttribute("user", request.getParameter("username"));        
             }
         }else{
-            addItem(request,cart);
+            addItem(request);
         }
     }
     
-    private void addItem(HttpServletRequest request, Cart cart){
+    private void addItem(HttpServletRequest request){
         if(request.getParameter("name") != null){
                 cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
         }
