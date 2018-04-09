@@ -7,6 +7,8 @@ package Servlets;
  */
 
 import Session.Cart;
+import Session.DataDump;
+import Session.InactivityLog;
 import Session.Item;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -32,6 +34,11 @@ public class SessionServlet extends HttpServlet {
     @EJB
     Cart cart;
     
+    @EJB
+    InactivityLog inactivityLog;
+            
+    @EJB
+    DataDump datadump;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,6 +52,7 @@ public class SessionServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         String userSession = (String) session.getAttribute("user");
+        datadump.setSessionServlet();
         if(!logout(request,session)){
             initializeCart(request, session);   
         }
@@ -70,6 +78,7 @@ public class SessionServlet extends HttpServlet {
     
     private void addItem(HttpServletRequest request, Cart cart){
         if(request.getParameter("name") != null){
+                datadump.setProductsClicked();
                 cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
         }
     }
@@ -123,15 +132,5 @@ public class SessionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private Cart lookupCartBean() {
-        try {
-            Context c = new InitialContext();
-            return (Cart) c.lookup("java:global/WebShop/Cart!Session.Cart");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
 
 }

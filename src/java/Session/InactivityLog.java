@@ -22,8 +22,7 @@ public class InactivityLog {
     private String log = "";
 
     public void Log(String clase, String funcion) {
-        this.log = clase + "::" + funcion;
-        System.out.println(this.log);
+        this.log += clase + "::" + funcion + ";";
     }
 
     public String getLog() {

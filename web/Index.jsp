@@ -7,8 +7,8 @@
 <%@page import="Session.Cart"%>
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! String username; %>
-<%! Cart cart;%>
+<%! String username; 
+    Cart cart;%>
 
 <!DOCTYPE html>
 

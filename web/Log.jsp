@@ -22,21 +22,12 @@
     </head>
     <body class="text-center" style="background-color:#f0fbff">
         <%@include file="/Adds/Header.jsp" %>
-        <%
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\ruben\\Desktop\\Timer Log.txt"));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            for(String temp : sb.toString().split("\n")){
-                out.println("<p>");
-                out.println(temp);
-                out.println("</p>");
-            }
-            
-            
-            %>
+        <% for (String temp : ((String) request.getAttribute("log")).split(";")){
+            out.println("<p>");
+            out.println(temp);
+            out.println("</p>");
+        }
+        %>
         <%@include file="/Adds/Footer.jsp" %>
     </body>
 </html>

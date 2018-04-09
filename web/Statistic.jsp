@@ -20,17 +20,17 @@
     </head>
     <body>
         <%@include file="/Adds/Header.jsp" %>
-        <h4>Numero de ${"login"}</h4>
-        <h4>Numero de ${"logoff"}</h4>
-        <h4>Numero de ${"productsClicked"}</h4>
-        <h4>Numero de ${"frontServlet"}</h4>
-        <h4>Numero de ${"sessionServlet"}</h4>
-        <h4>Numero de ${"index"}</h4>
-        <h4>Numero de ${"list"}</h4>
-        <h4>Numero de ${"cart"}</h4>
-        <h4>Numero de ${"profile"}</h4>
-        <h4>Numero de ${"Unknown"}</h4>
-        <h4>Numero de ${"singletonAccess"}</h4>
+        <h4>Numero de logins: ${login}</h4>
+        <h4>Numero de logoffs: ${logoff}</h4>
+        <h4>Numero de Productos añadidos a la cesta: ${productsClicked}</h4>
+        <h4>Numero de veces acceso al FrontServlet: ${frontServlet}</h4>
+        <h4>Numero de veces acceso al SessionServlet: ${sessionServlet}</h4>
+        <h4>Numero de veces acceso a la página principal: ${index}</h4>
+        <h4>Numero de veces acceso a la página de productos: ${list}</h4>
+        <h4>Numero de veces acceso a la página de cesta: ${cart}</h4>
+        <h4>Numero de veces acceso a la página de logueo: ${profile}</h4>
+        <h4>Numero de veces acceso a la página de error: ${Unknown}</h4>
+        <h4>Numero de veces acceso al singleton: ${singletonAccess}</h4>
         <%@include file="/Adds/Footer.jsp" %>
     </body>
 </html>
