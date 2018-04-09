@@ -5,11 +5,11 @@ package Servlets;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import Session.Cart;
 import Session.DataDump;
 import Session.InactivityLog;
 import Session.Item;
+import Session.Profile;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,14 +31,21 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(urlPatterns = {"/SessionServlet"})
 public class SessionServlet extends HttpServlet {
+
+    Profile profile = lookupProfileBean();
+
     @EJB
-    Cart cart;
-    
+    private Item item;
+
     @EJB
-    InactivityLog inactivityLog;
-            
+    private Cart cart;
+
     @EJB
-    DataDump datadump;
+    private InactivityLog inactivityLog;
+
+    @EJB
+    private DataDump datadump;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -53,41 +60,47 @@ public class SessionServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         String userSession = (String) session.getAttribute("user");
         datadump.setSessionServlet();
-        if(!logout(request,session)){
-            initializeCart(request, session);   
+        if (!logout(request, session)) {
+            initializeCart(request, session);
         }
         RequestDispatcher dp = getServletContext().getRequestDispatcher("/FrontServlet");
         dp.forward(request, response);
     }
-    
-    private void initializeCart(HttpServletRequest request, HttpSession session){
-        if(cart.isActive() == false){
-            cart = new Cart(); 
+
+    private void initializeCart(HttpServletRequest request, HttpSession session) {
+        if (cart.isActive() == false) {
+            cart = new Cart();
+            profile = new Profile();
             cart.initialize();
             session.setAttribute("cart", cart);
-            if(request.getParameter("username")  == null){
-                session.setAttribute("user", "Anonimo");  
+            if (request.getParameter("username") == null) {
+                session.setAttribute("user", "Anonimo");
                 addItem(request, cart);
-            }else{
-                session.setAttribute("user", request.getParameter("username"));        
+            } else {
+                session.setAttribute("user", request.getParameter("username"));
+                profile.setName(request.getParameter("username"));
             }
-        }else{
+        } else {
             addItem(request, cart);
         }
     }
-    
-    private void addItem(HttpServletRequest request, Cart cart){
-        if(request.getParameter("name") != null){
-                datadump.setProductsClicked();
-                cart.addItem(new Item(request.getParameter("id"),request.getParameter("name"),request.getParameter("value")));
+
+    private void addItem(HttpServletRequest request, Cart cart) {
+        if (request.getParameter("name") != null) {
+            datadump.setProductsClicked();
+            item.setId(request.getParameter("id"));
+            item.setName(request.getParameter("name"));
+            item.setValue(request.getParameter("value"));
+            cart.addItem(item);
         }
     }
-    
-    private Boolean logout(HttpServletRequest request, HttpSession session){
+
+    private Boolean logout(HttpServletRequest request, HttpSession session) {
         String logout = request.getParameter("logout");
-        if(logout == null){
+        if (logout == null) {
             return false;
-        }else{
+        } else {
+            cart.setActive();
             session.removeAttribute("user");
             session.invalidate();
             return true;
@@ -132,5 +145,15 @@ public class SessionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private Profile lookupProfileBean() {
+        try {
+            Context c = new InitialContext();
+            return (Profile) c.lookup("java:global/WebShop/Profile!Session.Profile");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 
 }

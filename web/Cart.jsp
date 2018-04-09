@@ -43,6 +43,12 @@
             </tr>
         </tbody>
     </table>
+    <form class="form-signin" action="SessionServlet" method="GET">
+        <label for="code"> Cod. descuento</label>
+        <input type="text" id="code" name="code" placeholder="codigo" > 
+        <input type="hidden" name="command" value="CartCommand"> <br><br>
+        <input class="btn btn-primary" type="submit" value="Descontar">
+    </form>
     <%@include file="/Adds/Footer.jsp" %>
 </body>
 </html>

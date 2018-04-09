@@ -1,8 +1,3 @@
-<%-- 
-    Document   : profile
-    Created on : 26-feb-2018, 9:43:39
-    Author     : Usuario
---%>
 <%@page import="Session.Cart"%>
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,11 +15,22 @@
     </head>
     <body class="text-center" style="background-color:#f0fbff">
         <br>
-            <form class="form-signin" action="SessionServlet" method="GET">
+        <form class="form-signin" action="EditServlet" method="GET">
+            <div>
                 <label for="username"> Usuario </label><br>
-                <input type="text" id="username" name="username" placeholder="Usuario" > 
-                <input type="hidden" name="command" value="IndexCommand"> <br><br>
-                <input class="btn btn-primary" type="submit" value="Acceder">
-            </form>
-    <%@include file="/Adds/Footer.jsp" %>
+                <p>${name}</p>
+                <input type="text" id="username" name="username" placeholder="Usuario" value="${name}"> 
+            </div>
+            <div>
+                <label for="username"> Dirección </label><br>
+                <input type="text" id="adress" name="adress" placeholder="adress" value="${adress}"> 
+            </div>
+            <div>
+                <label for="username"> Email </label><br>
+                <input type="text" id="email" name="email" placeholder="email" value="${email}"> 
+            </div>
+            <input type="hidden" name="command" value="ProfileCommand"> <br><br>
+            <input class="btn btn-primary" type="submit" value="Cambiar">
+        </form>
+        <%@include file="/Adds/Footer.jsp" %>
 </html>

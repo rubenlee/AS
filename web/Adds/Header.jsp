@@ -29,7 +29,7 @@
         <%  username = (String) session.getAttribute("user");
             cart = (Cart) session.getAttribute("cart");
             if (username != null) {
-        %> <li> <a class="nav-link disabled"> <% out.println("Bienvenido " + username); %> </a> </li>
+                %> <li> <span class="oi oi-person"></span> <a class="nav-link" href="FrontServlet?command=ProfileCommand"> <% out.println(username); %> </a> </li>
         <li> <form action="FrontServlet" method="GET">
                 <input type="hidden" name="command" value="CartCommand">
                 <button class="btn btn-link" type="submit">Cesta <span class="badge badge-secondary">
@@ -47,7 +47,7 @@
         <% } else { %>
         <li class="nav-item">
             <form action="FrontServlet" method="GET">
-                <input type="hidden" name="command" value="ProfileCommand">
+                <input type="hidden" name="command" value="SignCommand">
                 <input class="btn btn-primary" type="submit" value="Loguearse">
             </form>
         </li>
