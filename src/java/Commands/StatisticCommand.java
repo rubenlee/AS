@@ -18,27 +18,27 @@ import javax.naming.NamingException;
 @WebServlet(name = "StatisticCommand", urlPatterns = {"/StatisticCommand"})
 public class StatisticCommand extends FrontCommand {
 
-    DataDump dataDump = lookupDataDumpBean1();
+    DataDump dataDump = lookupDataDumpBean();
     InactivityLog inactivityLog = lookupInactivityLogBean();
 
 
     @Override
     public void process() {
-        DataDump data = lookupDataDumpBean();
         inactivityLog.Log("StatisticCommand", "process");
-        request.setAttribute("login", data.getLogin());
-        request.setAttribute("logoff", data.getLogoff());
-        request.setAttribute("productsClicked", data.getProductsClicked());
-        request.setAttribute("frontServlet", data.getFrontServlet());
-        request.setAttribute("sessionServlet", data.getSessionServlet());
-        request.setAttribute("index", data.getIndex());
-        request.setAttribute("list", data.getList());
-        request.setAttribute("cart", data.getCart());
-        request.setAttribute("profile", data.getProfile());
-        request.setAttribute("Unknown", data.getUnknown());
-        request.setAttribute("statistic", data.getStatistic());
-        request.setAttribute("sign", data.getSign());
-        request.setAttribute("singletonAccess", data.getTimeOut());
+        dataDump.setStatistic();
+        request.setAttribute("login", dataDump.getLogin());
+        request.setAttribute("logoff", dataDump.getLogoff());
+        request.setAttribute("productsClicked", dataDump.getProductsClicked());
+        request.setAttribute("frontServlet", dataDump.getFrontServlet());
+        request.setAttribute("sessionServlet", dataDump.getSessionServlet());
+        request.setAttribute("index", dataDump.getIndex());
+        request.setAttribute("list", dataDump.getList());
+        request.setAttribute("cart", dataDump.getCart());
+        request.setAttribute("profile", dataDump.getProfile());
+        request.setAttribute("Unknown", dataDump.getUnknown());
+        request.setAttribute("statistic", dataDump.getStatistic());
+        request.setAttribute("sign", dataDump.getSign());
+        request.setAttribute("singletonAccess", dataDump.getTimeOut());
         try {
             inactivityLog.Log("Statistic.jsp", "Pagina");
             dataDump.setStatistic();
@@ -70,14 +70,5 @@ public class StatisticCommand extends FrontCommand {
         }
     }
 
-    private DataDump lookupDataDumpBean1() {
-        try {
-            Context c = new InitialContext();
-            return (DataDump) c.lookup("java:global/WebShop/DataDump!Session.DataDump");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
 
 }

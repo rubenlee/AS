@@ -27,7 +27,7 @@ public class SaveTimer {
     
     @Schedule(second = "*/6", minute = "*", hour = "*")
     private void writeLogToFile() throws IOException {
-        File file = new File("C:\\Users\\ruben\\Desktop\\Timer Log.txt");
+        File file = new File("C:\\Users\\Usuario\\Desktop\\Timer Log.txt");
         BufferedWriter output = null;
         output = new BufferedWriter(new FileWriter(file, true));
         output.write( inactivityLog.getLog());

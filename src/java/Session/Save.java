@@ -13,11 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.ejb.PostActivate;
-import javax.ejb.Stateful;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -25,7 +23,7 @@ import javax.naming.NamingException;
  *
  * @author ruben
  */
-@Stateful
+@Stateless
 @LocalBean
 public class Save {
 
@@ -40,7 +38,7 @@ public class Save {
     }
     
     public void saveActions(String texto) throws IOException {
-        File file = new File("C:\\Users\\ruben\\Desktop\\Actions log.txt");
+        File file = new File("C:\\Users\\Usuario\\Desktop\\Actions log.txt");
         BufferedWriter output = null;
         output = new BufferedWriter(new FileWriter(file, true));
         output.write(texto);

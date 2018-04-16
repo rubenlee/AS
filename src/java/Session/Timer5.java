@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Schedule;
 import javax.ejb.LocalBean;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,7 +20,7 @@ import javax.naming.NamingException;
  *
  * @author ruben
  */
-@Stateless
+@Singleton
 @LocalBean
 public class Timer5 {
 

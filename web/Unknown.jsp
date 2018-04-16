@@ -1,13 +1,10 @@
-<%-- 
-    Document   : unknown
-    Created on : 26-feb-2018, 9:34:06
-    Author     : Usuario
---%>
-
 <%@page import="Session.Cart"%>
+<%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<%! Cart cart; %>
+<%! String username; 
+    Cart cart;
+%>
+
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">

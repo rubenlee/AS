@@ -26,8 +26,6 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(urlPatterns = {"/SessionServlet"})
 public class SessionServlet extends HttpServlet {
-    @EJB
-    private Item item;
 
     @EJB
     private Cart cart;
@@ -62,7 +60,7 @@ public class SessionServlet extends HttpServlet {
     }
 
     private void initializeCart(HttpServletRequest request, HttpSession session) {
-        if (cart.isActive() == false) {
+        if (session.getAttribute("user") == null) {
             cart = new Cart();
             wallet = new Wallet();
             cart.initialize();
@@ -71,23 +69,28 @@ public class SessionServlet extends HttpServlet {
             if (request.getParameter("username") == null) {
                 session.setAttribute("user", "Anonimo");
                 session.setAttribute("money", wallet.getAmount());
-                addItem(request, cart);
+                session.setAttribute("cart", cart);
+                addItem(request,session);
             } else {
                 session.setAttribute("user", request.getParameter("username"));
                 session.setAttribute("money", "100");
+                session.setAttribute("cart", cart);
             }
         } else {
-            addItem(request, cart);
+            addItem(request,session);
         }
     }
 
-    private void addItem(HttpServletRequest request, Cart cart) {
+    private void addItem(HttpServletRequest request, HttpSession session) {
         if (request.getParameter("name") != null) {
+            Cart cart = (Cart)session.getAttribute("cart");
             datadump.setProductsClicked();
+            Item item = new Item();
             item.setId(request.getParameter("id"));
             item.setName(request.getParameter("name"));
             item.setValue(request.getParameter("value"));
             cart.addItem(item);
+            
         }
     }
 

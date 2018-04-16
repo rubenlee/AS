@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Statistic
-    Created on : Apr 9, 2018, 4:33:03 PM
-    Author     : ruben
---%>
-
 <%@page import="Session.Cart"%>
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

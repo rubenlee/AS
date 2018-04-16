@@ -8,11 +8,6 @@ package Session;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
-import javax.ejb.PostActivate;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -20,8 +15,7 @@ import javax.naming.NamingException;
  *
  * @author ruben
  */
-@Stateless
-@LocalBean
+
 public class Item {
     private InactivityLog inactivityLog;
     private Save save;
@@ -108,18 +102,4 @@ public class Item {
         return this;
     }
     
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println("Inicializado el EJB de Item");
-    }
-    
-    @PostActivate
-    public void postActivate() {
-        System.out.println("Inicializado el EJB de Item");
-    }
-    
-    @PreDestroy
-    public void preDestroy() {
-        System.out.println("Se cerro el EJB de Item");
-    }
 }
