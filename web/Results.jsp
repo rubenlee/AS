@@ -6,14 +6,6 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% int temp = Integer.parseInt((String) session.getAttribute("size"));
-   int index = Integer.parseInt((String) session.getAttribute("indexM"));
-    if (temp % 3 == 0) {
-        temp = temp / 3;
-    } else {
-        temp = (temp / 3) + 1;
-    }
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,30 +16,10 @@
     </head>
     <body class="text-center" style="background-color:#f0fbff">
         <%@include file="/Adds/Header.jsp" %>
-        <div class="text-center">
-            <div class="btn-group">
-                <c:if test="${indexM == 0}">
-                    <a href="#" class="btn btn-small">&laquo;</a>
-                </c:if>
-                <c:if test="${indexM != 0}">
-                    <a href="FrontServlet?command=ListCommand&index=<% out.print(index); %>" class="btn btn-small">&laquo;</a>
-                </c:if>
-                <%for (int i = 1; i <= temp; i++) { %>
-                <a href="FrontServlet?command=ListCommand&index=<% out.print(i); %>" class="btn btn-small"> <% out.print(i); %> </a>
-                <% }%>
-                <c:if test="${indexM == temp}">
-                    <a href="#" class="btn btn-small">&raquo;</a> 
-                </c:if>
-                <c:if test="${indexM != temp}">
-                    <a href="FrontServlet?command=ListCommand&index=<% out.print(index + 2); %>" class="btn btn-small">&raquo;</a>
-                </c:if>
-                
-            </div>
-        </div>
         <table class="table">
             <tbody>
                 <tr>
-                    <c:forEach var="product" items="${products}">
+                    <c:forEach var="product" items="${results}">
                         <td><p>${product.name}</p>
                             <img class="img-thumbnail" src="${product.image}" alt="something" width="200" height="200">
                             <p>${product.price}$</p> 

@@ -27,7 +27,7 @@ public class Timer5 {
     private String Old = "";
     private String New = "";
     
-    @Schedule(second = "*/5", minute = "*", hour = "*")
+    //@Schedule(second = "*/5", minute = "*", hour = "*")
     public void imprimirMensajeCincoSegundosOcioso() {
         InactivityLog inactivo = lookupInactivityLogBean();
         New = inactivo.getLog();

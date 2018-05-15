@@ -1,11 +1,12 @@
 package Commands;
 
+
 import JPA.Cart;
-import JPA.CartFacade;
-import JPA.Product;
-import JPA.ProductFacade;
+import JPA.Discount;
+import JPA.DiscountFacade;
 import Session.Calculate;
 import Session.DataDump;
+import Session.Disccount;
 import Session.InactivityLog;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +18,28 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 @WebServlet(name = "CartCommand", urlPatterns = {"/CartCommand"})
-public class CartCommand extends FrontCommand {
+public class DiscountCommand extends FrontCommand {
 
-    ProductFacade productFacade = lookupProductFacadeBean();
+    Disccount disccount = lookupDisccountBean();
 
-    CartFacade cartFacade = lookupCartFacadeBean();
+    DiscountFacade discountFacade = lookupDiscountFacadeBean();
 
     DataDump dataDump = lookupDataDumpBean();
 
     InactivityLog inactivityLog = lookupInactivityLogBean();
-
+    
+    
+    
     @Override
     public void process() {
-        inactivityLog.Log("CartCommand", "Proccess");
+        inactivityLog.Log("DiscountCommand", "Proccess");
+        Discount discount = discountFacade.getDiscountByName(request.getParameter("code"));
         Cart cart = (Cart) session.getAttribute("cart");
-        if (cart.getSize() != 0) {
-            List<Product> product = new ArrayList();
-            for (String item : cart.getContain().split(",")) {
-                product.add(productFacade.getProductById(Integer.parseInt(item)));
-            }
-            session.setAttribute("list", product);
-            
+        if(discount != null){
+            int total = disccount.remainder(cart.getTotal(), Integer.parseInt(discount.getAmount()));
+            session.setAttribute("total", total);
         }
-        session.setAttribute("total", cart.getTotal());
+        
         dataDump.setCart();
         inactivityLog.Log("Cart.jsp", "Pagina");
         forward("/Cart.jsp");
@@ -55,6 +55,7 @@ public class CartCommand extends FrontCommand {
         }
     }
 
+
     private DataDump lookupDataDumpBean() {
         try {
             Context c = new InitialContext();
@@ -65,23 +66,24 @@ public class CartCommand extends FrontCommand {
         }
     }
 
-    private CartFacade lookupCartFacadeBean() {
+    private DiscountFacade lookupDiscountFacadeBean() {
         try {
             Context c = new InitialContext();
-            return (CartFacade) c.lookup("java:global/WebShop/CartFacade!JPA.CartFacade");
+            return (DiscountFacade) c.lookup("java:global/WebShop/DiscountFacade!JPA.DiscountFacade");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
     }
 
-    private ProductFacade lookupProductFacadeBean() {
+    private Disccount lookupDisccountBean() {
         try {
             Context c = new InitialContext();
-            return (ProductFacade) c.lookup("java:global/WebShop/ProductFacade!JPA.ProductFacade");
+            return (Disccount) c.lookup("java:global/WebShop/Disccount!Session.Disccount");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
     }
+
 }

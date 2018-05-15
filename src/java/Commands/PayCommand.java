@@ -1,14 +1,13 @@
 package Commands;
 
+
 import JPA.Cart;
 import JPA.CartFacade;
-import JPA.Product;
-import JPA.ProductFacade;
-import Session.Calculate;
+import JPA.Users;
+import JPA.Wallet;
+import JPA.WalletFacade;
 import Session.DataDump;
 import Session.InactivityLog;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
@@ -16,33 +15,36 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-@WebServlet(name = "CartCommand", urlPatterns = {"/CartCommand"})
-public class CartCommand extends FrontCommand {
+@WebServlet(name = "PayCommand", urlPatterns = {"/PayCommand"})
+public class PayCommand extends FrontCommand {
 
-    ProductFacade productFacade = lookupProductFacadeBean();
+    WalletFacade walletFacade = lookupWalletFacadeBean();
 
     CartFacade cartFacade = lookupCartFacadeBean();
 
     DataDump dataDump = lookupDataDumpBean();
 
     InactivityLog inactivityLog = lookupInactivityLogBean();
-
+    
+    
+    
     @Override
     public void process() {
-        inactivityLog.Log("CartCommand", "Proccess");
+        inactivityLog.Log("DiscountCommand", "Proccess");
         Cart cart = (Cart) session.getAttribute("cart");
-        if (cart.getSize() != 0) {
-            List<Product> product = new ArrayList();
-            for (String item : cart.getContain().split(",")) {
-                product.add(productFacade.getProductById(Integer.parseInt(item)));
-            }
-            session.setAttribute("list", product);
-            
-        }
-        session.setAttribute("total", cart.getTotal());
+        Wallet wallet = (Wallet) session.getAttribute("wallet");
+        Users user = (Users) session.getAttribute("user");
+        int total = (int) session.getAttribute("total");
+        int temp = wallet.getCuantity() - total;
+        walletFacade.UpdateCuantityWallet(temp,user.getId());
+        cartFacade.UpdateContainSizeTotalCart("", 0,0, user.getId());
+        wallet.setCuantity(temp);
+        cart.setTotal(0);
+        cart.setContain("");
+        cart.setSize(0);
         dataDump.setCart();
         inactivityLog.Log("Cart.jsp", "Pagina");
-        forward("/Cart.jsp");
+        forward("/Index.jsp");
     }
 
     private InactivityLog lookupInactivityLogBean() {
@@ -54,6 +56,7 @@ public class CartCommand extends FrontCommand {
             throw new RuntimeException(ne);
         }
     }
+
 
     private DataDump lookupDataDumpBean() {
         try {
@@ -75,13 +78,15 @@ public class CartCommand extends FrontCommand {
         }
     }
 
-    private ProductFacade lookupProductFacadeBean() {
+    private WalletFacade lookupWalletFacadeBean() {
         try {
             Context c = new InitialContext();
-            return (ProductFacade) c.lookup("java:global/WebShop/ProductFacade!JPA.ProductFacade");
+            return (WalletFacade) c.lookup("java:global/WebShop/WalletFacade!JPA.WalletFacade");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
     }
+
+
 }

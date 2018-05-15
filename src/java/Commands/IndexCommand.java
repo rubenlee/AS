@@ -20,17 +20,11 @@ public class IndexCommand extends FrontCommand {
     
     @Override
     public void process() {
-        try {
-            inactivityLog.Log("SessionServlet", "process");
-            dataDump.setIndex();
-            dataDump.setSessionServlet();
-            inactivityLog.Log("Index.jsp", "Pagina");
-            forward("/Index.jsp");
-        } catch (ServletException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        inactivityLog.Log("SessionServlet", "process");
+        dataDump.setIndex();
+        dataDump.setSessionServlet();
+        inactivityLog.Log("Index.jsp", "Pagina");
+        forward("/Index.jsp");
     }
 
     private InactivityLog lookupInactivityLogBean() {

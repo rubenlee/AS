@@ -1,8 +1,5 @@
-<%@page import="Session.Cart"%>
-<%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! String username; %>
-<%! Cart cart;%>
+
 <!DOCTYPE html>
 <html>
     <%@include file="/Adds/Header.jsp" %>
@@ -15,21 +12,24 @@
     </head>
     <body class="text-center" style="background-color:#f0fbff">
         <br>
-        <form class="form-signin" action="EditServlet" method="GET">
+        <form class="form-signin" action="FrontServlet" method="GET">
             <div>
                 <label for="username"> Usuario </label><br>
-                
-                <input type="text" id="username" name="username" placeholder="Usuario" value="${name}"> 
+                <input type="text" id="username" name="username" placeholder="Usuario" value="${user.name}"> 
             </div>
             <div>
-                <label for="username"> Dirección </label><br>
-                <input type="text" id="adress" name="adress" placeholder="Direccion" value="${adress}"> 
+                <label for="city"> Dirección </label><br>
+                <input type="text" id="city" name="city" placeholder="Direccion" value="${user.city}"> 
             </div>
             <div>
-                <label for="username"> Email </label><br>
-                <input type="text" id="email" name="email" placeholder="Email" value="${email}"> 
+                <label for="phone"> Nº de telefono </label><br>
+                <input type="text" id="phone" name="phone" placeholder="Nº de telefono" value="${user.phone}"> 
             </div>
-            <input type="hidden" name="command" value="ProfileCommand"> <br><br>
+            <div>
+                <label for="pass"> Nueva contraseña</label><br>
+                <input type="password" id="pass" name="pass"> 
+            </div>
+            <input type="hidden" name="command" value="ProfileEditCommand"> <br><br>
             <input class="btn btn-primary" type="submit" value="Cambiar">
         </form>
         <%@include file="/Adds/Footer.jsp" %>

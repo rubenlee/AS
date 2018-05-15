@@ -20,13 +20,10 @@
     </head>
     <body class="text-center" style="background-color:#f0fbff">
         <form class="form-signin" action="FrontServlet" method="GET">
-            <input type="hidden" name="command" value="LoginCommand">
-            <label for="username"> Usuario </label><br>
-            <input type="text" id="username" name="username" placeholder="Usuario" > <br>
-            <label for="password"> contraseña </label><br>
-            <input type="password" id="password" name="password" placeholder="contraseña" > 
-            <br><br>
-            <input class="btn btn-primary" type="submit" value="Acceder">
+            <input type="hidden" name="command" value="WalletCommand">
+            <label for="money"> Cantidad a ingresar </label><br>
+            <input type="number" id="money" name="money" placeholder="0" > <br><br>
+            <input class="btn btn-primary" type="submit" value="Aceptar">
         </form>
         <%@include file="/Adds/Footer.jsp" %>
 </html>

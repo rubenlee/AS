@@ -25,7 +25,7 @@ public class SaveTimer {
     @EJB
     private InactivityLog inactivityLog;
     
-    @Schedule(second = "*/6", minute = "*", hour = "*")
+    //@Schedule(second = "*/6", minute = "*", hour = "*")
     private void writeLogToFile() throws IOException {
         File file = new File("C:\\Users\\Usuario\\Desktop\\Timer Log.txt");
         BufferedWriter output = null;

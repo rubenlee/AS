@@ -6,9 +6,7 @@
 <%@page import="Session.Cart"%>
 <%@page import="Session.Item"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% String username; %>
-<% Cart cart;
-%>
+
 
 
 <!DOCTYPE html>
@@ -28,26 +26,33 @@
             <th scope="col">Precio</th>
         </thead>
         <tbody>
-            <%
-                int total = 0;
-                for (Item item : cart.getContents()) { %>
+            <c:forEach var="product" items="${list}">
             <tr class="table-info">
-                <td> <% out.print(item.getName()); %> </td>
-                <td> <% out.print(item.getId()); %> </td>
-                <td> <% out.print(item.getValue()); %> $</td>
+                <td> ${product.name} </td>
+                <td> ${product.id} </td>
+                <td> ${product.price} $</td>
             </tr>
-            <% } %>
+            </c:forEach>
             <tr>
                 <td></td><td class="table-info">Total:</td>
-                <td class="table-info"> <% out.print(session.getAttribute("total"));%> $</td> 
+                <td class="table-info"> ${total} $</td> 
             </tr>
         </tbody>
     </table>
-    <form class="form-signin" action="SessionServlet" method="GET">
+    <form class="form-signin" action="FrontServlet" method="Post">
         <label for="code"> Cod. descuento</label>
         <input type="text" id="code" name="code" placeholder="codigo" > 
-        <input type="hidden" name="command" value="CartCommand"> <br><br>
+        <input type="hidden" name="command" value="DiscountCommand">
         <input class="btn btn-primary" type="submit" value="Descontar">
+    </form>
+    <form class="form-signin" action="FrontServlet" method="Post">
+        <input type="hidden" name="command" value="PayCommand"> 
+        <c:if test="${total <= wallet.cuantity}">
+            <input class="btn btn-primary" type="submit" value="Comprar">
+        </c:if>
+        <c:if test="${total > wallet.cuantity}">
+            <input class="btn btn-primary" type="submit" value="Comprar" disabled>
+        </c:if>
     </form>
     <%@include file="/Adds/Footer.jsp" %>
 </body>

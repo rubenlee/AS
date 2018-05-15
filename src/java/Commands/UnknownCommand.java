@@ -30,14 +30,8 @@ public class UnknownCommand extends FrontCommand {
     public void process() {
         inactivityLog.Log("UnknownCommand", "process");
         dataDump.setUnknown();
-        try {
-            inactivityLog.Log("Unknown.jsp", "Pagina");
-            forward("/Unknown.jsp");
-        } catch (ServletException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        inactivityLog.Log("Unknown.jsp", "Pagina");
+        forward("/Unknown.jsp");
     }
 
     private InactivityLog lookupInactivityLogBean() {

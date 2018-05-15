@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author Usuario
@@ -45,7 +46,8 @@ public class FrontServlet extends HttpServlet {
         inactivityLog.Log("FrontCommand", "processRequest");
         dataDump.setFrontServlet();
         FrontCommand command = getCommand(request);
-        command.init(getServletContext(), request, response);
+        HttpSession session = request.getSession(true);
+        command.init(getServletContext(), request, response,session);
         command.process();
     }
     

@@ -35,6 +35,7 @@ public class Calculate {
         try {
             inactivityLog = InitialContext.doLookup("java:global/WebShop/InactivityLog!Session.InactivityLog");
             save = InitialContext.doLookup("java:global/WebShop/Save!Session.Save");
+            
         } catch (NamingException ex) {
             Logger.getLogger(Calculate.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -29,15 +29,9 @@ public class SignCommand extends FrontCommand {
     @Override
     public void process() {
         inactivityLog.Log("SignCommand", "process");
-        try {
-            inactivityLog.Log("Sign.jsp", "Pagina");
-            dataDump.setSign();
-            forward("/Sign.jsp");
-        } catch (ServletException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        inactivityLog.Log("Sign.jsp", "Pagina");
+        dataDump.setSign();
+        forward("/Sign.jsp");
     }
 
     private InactivityLog lookupInactivityLogBean() {

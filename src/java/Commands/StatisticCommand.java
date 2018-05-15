@@ -39,15 +39,9 @@ public class StatisticCommand extends FrontCommand {
         request.setAttribute("statistic", dataDump.getStatistic());
         request.setAttribute("sign", dataDump.getSign());
         request.setAttribute("singletonAccess", dataDump.getTimeOut());
-        try {
-            inactivityLog.Log("Statistic.jsp", "Pagina");
-            dataDump.setStatistic();
-            forward("/Statistic.jsp");
-        } catch (ServletException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        inactivityLog.Log("Statistic.jsp", "Pagina");
+        dataDump.setStatistic();
+        forward("/Statistic.jsp");
     }
 
     private DataDump lookupDataDumpBean() {

@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/JPA/ProductFacade.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/JPA/UsersFacade.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/Commands/LoginCommand.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/Commands/SignCommand.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/JPA/AbstractFacade.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/web/WEB-INF/glassfish-resources.xml</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/web/Sign.jsp</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/JPA/CartFacade.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/JPA/WalletFacade.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/web/Adds/Header.jsp</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/Servlets/SessionServlet.java</file>
+            <file>file:/C:/Users/ruben/OneDrive/Documents/AS/src/java/JPA/DiscountFacade.java</file>
+        </group>
     </open-files>
 </project-private>

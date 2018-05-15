@@ -24,15 +24,9 @@ public class LogCommand extends FrontCommand {
     public void process() {
         inactivityLog.Log("LogCommand", "Proccess");
         request.setAttribute("log", inactivityLog.getLog());
-        try {
-            inactivityLog.Log("Log.jsp", "Pagina");
-            dataDump.setLog();
-            forward("/Log.jsp");
-        } catch (ServletException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        inactivityLog.Log("Log.jsp", "Pagina");
+        dataDump.setLog();
+        forward("/Log.jsp");
     }
 
     private InactivityLog lookupInactivityLogBean() {
